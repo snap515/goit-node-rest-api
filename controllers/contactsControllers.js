@@ -1,11 +1,46 @@
 import contactsService from "../services/contactsServices.js";
+import HttpError from "../helpers/HttpError.js";
 
-export const getAllContacts = (req, res) => {};
+import {
+  createContactSchema,
+  updateContactSchema,
+} from "../schemas/contactsSchemas.js";
 
-export const getOneContact = (req, res) => {};
+export const getAllContacts = async (req, res) => {
+  try {
+    const result = await contactsService.listContact();
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
 
-export const deleteContact = (req, res) => {};
+export const getOneContact = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await contactsService.getContactById(id);
+    if (!result) {
+      throw HttpError(404);
+    }
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
 
-export const createContact = (req, res) => {};
+export const deleteContact = async (req, res) => {};
 
-export const updateContact = (req, res) => {};
+export const createContact = async (req, res, next) => {
+  try {
+    const { error } = createContactSchema.validate(req.body);
+    if (error) {
+      throw HttpError(400, error.message);
+    }
+    const result = await contactsService.addContact(req.body);
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateContact = async (req, res) => {};

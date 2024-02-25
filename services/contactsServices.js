@@ -40,4 +40,21 @@ async function removeContact(contactId) {
   return result;
 }
 
-export default { listContact, getContactById, addContact, removeContact };
+async function updateContact(contactId, data) {
+  const contacts = await listContact();
+  const index = contacts.findIndex((item) => item.id === contactId);
+  if (index === -1) {
+    return null;
+  }
+  contacts[index] = { ...contacts[index], ...data };
+  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  return contacts[index];
+}
+
+export default {
+  listContact,
+  getContactById,
+  addContact,
+  removeContact,
+  updateContact,
+};

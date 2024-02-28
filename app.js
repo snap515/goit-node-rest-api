@@ -1,10 +1,11 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+import mongoose from "mongoose";
 
 import contactsRouter from "./routes/contactsRouter.js";
 
-const app = express();
+export const app = express();
 
 app.use(morgan("tiny"));
 app.use(cors());
@@ -21,6 +22,15 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
-app.listen(3000, () => {
-  console.log("Server is running. Use our API on port: 3000");
-});
+const DB_HOST =
+  "mongodb+srv://Anton:mKbQy7e0E9GjTiEQ@cluster1.l8blfiy.mongodb.net/contacts_reader?retryWrites=true&w=majority&appName=Cluster1";
+
+mongoose
+  .connect(DB_HOST)
+  .then(() => {
+    app.listen(3000);
+  })
+  .catch((error) => {
+    console.log(error.message);
+    process.exit(1);
+  });

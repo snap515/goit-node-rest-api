@@ -2,7 +2,6 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
-import DB_HOST from "./config.js";
 
 import contactsRouter from "./routes/contactsRouter.js";
 

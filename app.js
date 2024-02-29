@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
+import DB_HOST from "./config.js";
 
 import contactsRouter from "./routes/contactsRouter.js";
 
@@ -22,13 +23,11 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
-const DB_HOST =
-  "mongodb+srv://Anton:mKbQy7e0E9GjTiEQ@cluster1.l8blfiy.mongodb.net/contacts_reader?retryWrites=true&w=majority&appName=Cluster1";
-
 mongoose
   .connect(DB_HOST)
   .then(() => {
     app.listen(3000);
+    console.log("WEBSERVER");
   })
   .catch((error) => {
     console.log(error.message);

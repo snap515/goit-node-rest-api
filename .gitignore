@@ -4,3 +4,6 @@ node_modules/
 .vscode
 .DS_Store
 config.js
+readme.txt
+.env
+.env.local

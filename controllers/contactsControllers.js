@@ -21,6 +21,7 @@ const getAllContacts = async (req, res) => {
       limit,
     }
   ).populate("owner", "name email");
+  console.log(result);
   res.json(result);
 };
 
@@ -31,6 +32,7 @@ const getOneContact = async (req, res) => {
   if (!result) {
     throw HttpError(404);
   }
+  console.log(result);
   res.json(result);
 };
 
@@ -40,6 +42,7 @@ const deleteContact = async (req, res) => {
   if (!result) {
     throw HttpError(404);
   }
+  console.log(result);
   // res.status(204).send()
   res.json(result);
 };
@@ -52,6 +55,7 @@ const createContact = async (req, res) => {
   // const { name, email, phone } = req.body;
   const { _id: owner } = req.user;
   const result = await Contact.create({ ...req.body, owner });
+  console.log(result);
   res.status(201).json(result);
 };
 
@@ -62,6 +66,7 @@ const updateContact = async (req, res) => {
   }
   const { id } = req.params;
   const result = await Contact.findByIdAndUpdate(id, req.body, { new: true });
+  console.log(result);
   if (!result) {
     throw HttpError(404);
   }
@@ -75,6 +80,7 @@ const updateFavorite = async (req, res) => {
   }
   const { id } = req.params;
   const result = await Contact.findByIdAndUpdate(id, req.body, { new: true });
+  console.log(result);
   if (!result) {
     throw HttpError(404);
   }

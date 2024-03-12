@@ -9,23 +9,9 @@ import { Contact } from "../models/contact.js";
 
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 
-// const getAllContacts = async (req, res) => {
-//   const { _id: owner } = req.user;
-//   console.log(req.query);
-//   const { page = 1, limit = 5 } = req.query;
-//   const skip = (page - 1) * limit;
-//   const result = await Contact.find({ owner }, "-createdAt -updatedAt", {
-//     skip,
-//     limit,
-//   }).populate("owner", "name email");
-//   res.json(result);
-// };
-
 const getAllContacts = async (req, res) => {
   const { _id: owner } = req.user;
-  console.log(req.query);
   const { page = 1, limit = 20, favorite } = req.query;
-  console.log(favorite);
   const skip = (page - 1) * limit;
   const result = await Contact.find(
     { owner, favorite },
@@ -42,7 +28,6 @@ const getOneContact = async (req, res) => {
   const { id } = req.params;
   // const result = await Contact.findOne({ _id: id }); для поиска по всему кроме id
   const result = await Contact.findById(id);
-  console.log(result);
   if (!result) {
     throw HttpError(404);
   }
@@ -52,7 +37,6 @@ const getOneContact = async (req, res) => {
 const deleteContact = async (req, res) => {
   const { id } = req.params;
   const result = await Contact.findByIdAndDelete(id);
-  console.log(result);
   if (!result) {
     throw HttpError(404);
   }

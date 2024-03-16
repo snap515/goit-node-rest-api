@@ -6,6 +6,7 @@ import gravatar from "gravatar";
 import path from "path";
 // import fs from "fs";
 import fs from "fs/promises";
+import Jimp from "jimp";
 
 import HttpError from "../helpers/HttpError.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
@@ -90,12 +91,28 @@ const updateSub = async (req, res) => {
 
 const updateAvatar = async (req, res) => {
   const { _id } = req.user;
-  console.log(req.file);
   const { path: tempUpload, originalname } = req.file;
   const filename = `${_id}_${originalname}`;
   const resultUpload = path.join(avatarsDir, filename);
-  await fs.rename(tempUpload, resultUpload);
+  console.log("tempUpload", tempUpload);
+  console.log("avatarsDir", avatarsDir);
+  console.log("originalName", originalname);
+  console.log("filename", filename);
+  console.log("resultUpload", resultUpload);
+
+  await Jimp.read(tempUpload)
+    .then((image) => {
+      return image.resize(250, Jimp.AUTO);
+    })
+    .then((image) => {
+      return image.write(resultUpload);
+    });
+
+  await fs.unlink(tempUpload);
+
+  // await fs.rename(tempUpload, resultUpload);
   const avatarURL = path.join("avatars", filename);
+  console.log("avatarURL", avatarURL);
   await User.findByIdAndUpdate(_id, { avatarURL });
 
   res.json({

@@ -90,15 +90,13 @@ const updateSub = async (req, res) => {
 };
 
 const updateAvatar = async (req, res) => {
+  if (!req.file) {
+    throw HttpError(400, "No file uploaded");
+  }
   const { _id } = req.user;
   const { path: tempUpload, originalname } = req.file;
   const filename = `${_id}_${originalname}`;
   const resultUpload = path.join(avatarsDir, filename);
-  console.log("tempUpload", tempUpload);
-  console.log("avatarsDir", avatarsDir);
-  console.log("originalName", originalname);
-  console.log("filename", filename);
-  console.log("resultUpload", resultUpload);
 
   await Jimp.read(tempUpload)
     .then((image) => {

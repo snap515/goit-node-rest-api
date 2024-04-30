@@ -12,7 +12,7 @@ dotenv.config();
 const { SECRET_KEY, BASE_URL } = process.env;
 
 const register = async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
   const user = await User.findOne({ email });
 
   if (user) {

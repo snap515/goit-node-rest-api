@@ -8,7 +8,7 @@ import HttpError from "../helpers/HttpError.js";
 import { sendEmail } from "../helpers/sendEmail.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 
-const path = require("path");
+import path from "path";
 
 dotenv.config();
 const { SECRET_KEY, BASE_URL } = process.env;
@@ -97,10 +97,12 @@ const resendVerifyEmail = async (req, res) => {
   };
 
   await sendEmail(verifyEmail);
-
-  res.json({
-    message: "Verification email was send successfully",
-  });
+  res.sendFile(
+    path.join(__dirname, "..", "ejs-pages", "verification-success.ejs")
+  );
+  // res.json({
+  //   message: "Verification email was send successfully",
+  // });
 };
 
 const login = async (req, res) => {
@@ -155,10 +157,7 @@ const updateSub = async (req, res) => {
     throw HttpError(404);
   }
 
-  res.sendFile(
-    path.join(__dirname, "..", "ejs-pages", "verification-success.ejs")
-  );
-  // res.json(result);
+  res.json(result);
 };
 
 export default {

@@ -8,8 +8,6 @@ import HttpError from "../helpers/HttpError.js";
 import { sendEmail } from "../helpers/sendEmail.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 
-import path from "path";
-
 dotenv.config();
 const { SECRET_KEY, BASE_URL } = process.env;
 
@@ -61,11 +59,6 @@ const register = async (req, res) => {
   });
 };
 
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 const verifyEmail = async (req, res) => {
   const { verificationCode } = req.params;
   console.log("req body ", req.body);
@@ -79,16 +72,7 @@ const verifyEmail = async (req, res) => {
     verificationCode: "",
   });
 
-  // res.json({ message: "Verification successful" });
-  const templatePath = path.join(
-    __dirname,
-    "..",
-    "ejs-pages",
-    "verification-success.ejs"
-  );
-
-  // Отправляем файл шаблона клиенту
-  res.sendFile(templatePath);
+  res.json({ message: "Verification successful" });
 };
 
 const resendVerifyEmail = async (req, res) => {

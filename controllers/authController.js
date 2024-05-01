@@ -74,7 +74,10 @@ const verifyEmail = async (req, res) => {
     verificationCode: "",
   });
 
-  res.json({ message: "Verification successful" });
+  // res.json({ message: "Verification successful" });
+  res.sendFile(
+    path.join(__dirname, "..", "ejs-pages", "verification-success.ejs")
+  );
 };
 
 const resendVerifyEmail = async (req, res) => {
@@ -97,12 +100,10 @@ const resendVerifyEmail = async (req, res) => {
   };
 
   await sendEmail(verifyEmail);
-  res.sendFile(
-    path.join(__dirname, "..", "ejs-pages", "verification-success.ejs")
-  );
-  // res.json({
-  //   message: "Verification email was send successfully",
-  // });
+
+  res.json({
+    message: "Verification email was send successfully",
+  });
 };
 
 const login = async (req, res) => {

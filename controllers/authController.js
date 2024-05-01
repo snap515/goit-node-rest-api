@@ -7,6 +7,7 @@ import { nanoid } from "nanoid";
 import HttpError from "../helpers/HttpError.js";
 import { sendEmail } from "../helpers/sendEmail.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
+import { emailText } from "../constants/emailText.js";
 
 dotenv.config();
 const { SECRET_KEY, BASE_URL } = process.env;
@@ -30,7 +31,7 @@ const register = async (req, res) => {
   const verifyEmail = {
     to: email,
     subject: "Verify Email",
-    html: `<a target="_blank" href="${BASE_URL}/api/auth/verify/${verificationCode}">Click to verify</a>`,
+    html: emailText,
   };
 
   await sendEmail(verifyEmail);

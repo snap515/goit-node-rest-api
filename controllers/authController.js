@@ -75,10 +75,7 @@ const verifyEmail = async (req, res) => {
   });
 
   // res.json({ message: "Verification successful" });
-  res.sendFile(
-    path.join(__dirname, "..", "ejs-pages", "verification-success.ejs")
-  );
-};
+res.sendFile(path.join(module.dirname, '..', 'ejs-pages', 'verification-success.ejs'));
 
 const resendVerifyEmail = async (req, res) => {
   const { email } = req.body;

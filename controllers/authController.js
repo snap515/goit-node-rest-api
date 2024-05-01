@@ -61,6 +61,9 @@ const register = async (req, res) => {
   });
 };
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const verifyEmail = async (req, res) => {
   const { verificationCode } = req.params;
   console.log("req body ", req.body);
@@ -75,9 +78,15 @@ const verifyEmail = async (req, res) => {
   });
 
   // res.json({ message: "Verification successful" });
-  res.sendFile(
-    path.join(module.dirname, "..", "ejs-pages", "verification-success.ejs")
+  const templatePath = path.join(
+    __dirname,
+    "..",
+    "ejs-pages",
+    "verification-success.ejs"
   );
+
+  // Отправляем файл шаблона клиенту
+  res.sendFile(templatePath);
 };
 
 const resendVerifyEmail = async (req, res) => {

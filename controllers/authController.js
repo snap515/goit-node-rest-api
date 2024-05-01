@@ -85,7 +85,7 @@ const resendVerifyEmail = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, name } = req.body;
   const user = await User.findOne({ email });
   console.log(user);
   if (!user) {
@@ -106,6 +106,8 @@ const login = async (req, res) => {
   await User.findByIdAndUpdate(user._id, { token });
   res.json({
     token,
+    email,
+    name,
   });
 };
 
